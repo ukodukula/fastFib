@@ -1,18 +1,29 @@
+import java.util.HashMap;
+import java.lang.Exception;
+
 class FastFib {
-	public static void main(String[] args){
-		System.out.println("Traditional implementation of Fibonacci sequence generator. This implementation does not scale, and can be tweaked simply with a dynamic programming implementation that is mind blowingly faster.");
-		for (int i=0; i<50; i++){
-			System.out.println("Fib(" + i + ") = " + fib(i));
-		}
+	private HashMap map;
+	
+	public FastFib(){
+		this.map = new HashMap<Integer,Integer>();
 	}
 
-	public static int fib(int number){
+	public int fib(int number) throws Exception{
 		if (number < 0){
-			return 0;
+			throw new Exception("Implementation of negative numbers is not Supported.");
 		}	
 		if (number == 0 || number == 1){
 			return number;
 		}
-		return fib(number - 1) + fib(number - 2);
+
+		// Check to see if this work has already been done, in which case let's use that stored value.
+		if(this.map.containsKey(new Integer(number))){
+			return ((Integer)this.map.get(number)).intValue();
+		}
+
+		int val = fib(number - 1) + fib(number - 2);
+		map.put(new Integer(number), new Integer(val));	
+
+		return val;
 	}
 }
